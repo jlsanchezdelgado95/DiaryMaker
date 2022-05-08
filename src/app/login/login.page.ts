@@ -47,7 +47,7 @@ export class LoginPage implements OnInit {
         console.log("Problemas con el acceso: ", e.message)
         if (e.message == "There is no user record corresponding to this identifier. The user may have been deleted") {
           this.cerradoAcceso1 = false;
-        } else if (e.message == "The password is invalid or the user does not have a password.") {
+        } else if (e.message == "Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).") {
           this.cerradoAcceso2 = false;
         } else if (e.message == "Firebase: The email address is badly formatted. (auth/invalid-email).") {
           this.cerradoAcceso3 = false;

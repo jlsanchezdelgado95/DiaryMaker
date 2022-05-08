@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: MainPage
+  },
+  {
+    path: 'crear-tareas',
+    loadChildren: () => import('./crear-tareas/crear-tareas.module').then( m => m.CrearTareasPageModule)
   }
 ];
 

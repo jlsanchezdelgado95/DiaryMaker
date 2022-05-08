@@ -16,6 +16,10 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -27,7 +31,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     ReactiveFormsModule,
-    FormsModule],
+    FormsModule,
+    NgbModule,
+    FontAwesomeModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

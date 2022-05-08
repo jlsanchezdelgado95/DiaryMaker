@@ -8,7 +8,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <body class="pricing py-4">
     <div class="container h-100">
       <div class="row h-100">
@@ -138,7 +137,7 @@
                 </div>
               </ng-template>
               <!-- MODAL MENSAJE EDIT -->
-              <!-- TABLA TAREAS -->
+              <!-- TABLA TAREAS QUE SE VISUALIZAN EN EL MAIN -->
               <div class="table-wrapper-scroll-y my-custom-scrollbar">
                 <table class="table">
                   <thead>
@@ -154,6 +153,7 @@
                       <!--<td>{{tarea.detalle}}</td>-->
                       <td>{{tarea.fecha}}</td>
                       <td class="text-center">
+                        <i class="fa-regular fa-magnifying-glass-plus"></i>
                         <i class="fas fa-search-plus" (click)="open(update,tarea, tarea.id)"></i>
                         <i class="fas fa-minus" (click)="open(deleteModal,tarea, tarea.id)"></i>
                       </td>
@@ -200,7 +200,7 @@
               <h4 class="text-center mb-3" (click)="openCreate(create)">Nueva tarea
                 <i class="fas fa-plus-circle"></i>
               </h4>
-              <a class="btn btn-block btn-info text-uppercase text-white" (click)="desconectarse()">Cerrar
+              <a class="btn btn-block col-12 btn-info text-uppercase text-white" (click)="desconectarse()">Cerrar
                 sesión</a>
             </div>
           </div>

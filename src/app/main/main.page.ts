@@ -23,7 +23,7 @@ export class MainPage implements OnInit {
 
   public documentId = null;
   public currentStatus = 1;
-  correo: any;
+  email: any;
   tareas = [];
   anyo = '';
   mes = '';
@@ -36,7 +36,7 @@ export class MainPage implements OnInit {
   tareaId = '';
   //
 
-  public nuevaTareaFormulario = new FormGroup({
+  public newTareaForm = new FormGroup({
     nombre: new FormControl('', Validators.required),
     fecha: new FormControl('', Validators.required),
     detalle: new FormControl(''),
@@ -44,7 +44,15 @@ export class MainPage implements OnInit {
     /*id: new FormControl('')*/
   });
 
-  constructor(private router: Router, private auth: AuthenticationService, private modal: NgbModal, private main: MainService) { }
+  constructor(private router: Router, private auth: AuthenticationService, private modal: NgbModal, private main: MainService) {
+    this.newTareaForm.setValue({
+      nombre: "",
+      fecha: "",
+      detalle: "",
+      // usuario: "",
+      // id: ""
+    })
+  }
 
   ngOnInit() {
     // Miro si esta logueado o no, en el onInit por que es al cargar la página
@@ -52,7 +60,7 @@ export class MainPage implements OnInit {
       if (auth) {//Entra si esta logueado
         this.modal.open(this.bienvenida)
         this.auth.datosUsuario.subscribe(data => {
-          this.correo = data.email;
+          this.email = data.email;
         })
         this.main.getTareas().subscribe((tareas) => {
           this.tareas = []
@@ -62,22 +70,24 @@ export class MainPage implements OnInit {
             this.mes = date.getMonth();
             this.dia = date.getDate();
             let fechaBuena = (this.anyo + "/" + this.mes + "/" + this.dia)
-            this.tareas.push({
-              nombre: tarea.payload.doc.data().nombre,
-              detalle: tarea.payload.doc.data().detalle,
-              fecha: fechaBuena,
-              id: tarea.payload.doc.id
-            })
+            // Filtro, para recoger solo las tareas de ese usuario
+            if (tarea.payload.doc.data().email == this.email) {
+              this.tareas.push({
+                nombre: tarea.payload.doc.data().nombre,
+                detalle: tarea.payload.doc.data().detalle,
+                fecha: fechaBuena,
+                id: tarea.payload.doc.id
+              })
+            }
           })
         })
-
       } else {
         this.router.navigateByUrl("/login")
       }
     })
   }
 
-  borrarTarea() {
+  deleteTarea() {
     this.main.deleteTarea(this.tareaId).then(() => {
       console.log("DOCUMENTO ELIMINADO");
       this.modal.dismissAll(this.deleteTareaRef);
@@ -88,7 +98,7 @@ export class MainPage implements OnInit {
 
   desconectarse() {
     this.auth.salirSesionService();
-    this.correo = undefined;
+    this.email = undefined;
     this.modal.open(this.despedidaModalRef);
     this.router.navigateByUrl("/login");
   }
@@ -116,17 +126,17 @@ export class MainPage implements OnInit {
       nombre: form.nombre,
       fecha: fechaBuena,
       detalle: form.detalle,
-      /*usuario: form.usuario*/
+      email: this.email
     }
     this.main.createTarea(data).then(() => {
-      console.log('Documento creado exitósamente!');
+      // console.log('Documento creado exitósamente!');
       this.modal.dismissAll(this.nuevaTarea);
       this.modal.open(this.nuevaTarea);
-      this.nuevaTareaFormulario.setValue({
+      this.newTareaForm.setValue({
         nombre: '',
         fecha: '',
         detalle: '',
-        /*usuario: ''*/
+        email: ''
       });
     }, (error) => {
       console.error(error);
@@ -146,7 +156,7 @@ export class MainPage implements OnInit {
     console.log(data);*/
     this.main.updateTarea(this.tareaId, data).then(() => {
       this.currentStatus = 1;
-      this.nuevaTareaFormulario.setValue({
+      this.newTareaForm.setValue({
         nombre: '',
         fecha: '',
         detalle: '',
