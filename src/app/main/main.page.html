@@ -1,0 +1,211 @@
+<ion-header [translucent]="true">
+  <!-- <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ folder }}</ion-title>
+  </ion-toolbar> -->
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <body class="pricing py-4">
+    <div class="container h-100">
+      <div class="row h-100">
+        <!-- Free Tier -->
+        <div class="p-4 h-100">
+          <div class="card h-100">
+            <div class="card-body">
+              <h3 class="card-title text-uppercase text-center">Bienvenido: {{email}}</h3>
+              <h4 class="text-center">Tus tareas</h4>
+              <!-- MODAL BIENVENIDA -->
+              <ng-template #bienvenida let-c="close" let-d="dismiss" id="bienvenida">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">BIENVENID@</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Gracias por venir {{email}}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Continuar</button>
+                </div>
+              </ng-template>
+              <!-- MODAL BIENVENIDA -->
+              <!-- MODAL NUEVA TAREA -->
+              <ng-template #nuevaTarea let-c="close" let-d="dismiss" id="nuevaTarea">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Enhorabuena</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Has añadido una nueva tarea
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Continuar</button>
+                </div>
+              </ng-template>
+              <!-- MODAL NUEVA TAREA -->
+              <!-- MODAL CREATE -->
+              <ng-template #create let-c="close" let-d="dismiss" id="create">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Introduzca su nueva tarea:</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form (ngSubmit)="newTarea(newTareaForm.value)" [formGroup]="newTareaForm">
+                    <h4>
+                      <div class="form-group">
+                        <label>Nombre:</label>
+                        <p></p>
+                        <input type="text" formControlName="nombre">
+                      </div>
+                      <div class="form-group">
+                        <label>Fecha:</label>
+                        <p></p>
+                        <input type="date" formControlName="fecha">
+                      </div>
+                      <div class="form-group">
+                        <label>Detalles:</label>
+                        <p></p>
+                        <input type="text" formControlName="detalle">
+                      </div>
+                    </h4>
+                    <!--<input type="hidden" formControlName="usuario">-->
+                    <input type="submit" class="btn btn-block btn-success text-uppercase text-white"
+                      [disabled]="!newTareaForm.valid" value="Guardar">
+                  </form>
+                </div>
+                <!--<div class="modal-footer">
+                                <button type="button" class="btn btn-outline-dark"
+                                    (click)="c('Save click')">Save</button>
+                            </div>-->
+              </ng-template>
+              <!-- MODAL CREATE -->
+              <!-- MODAL EDIT -->
+              <ng-template #update let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Contenido de su tarea</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form (ngSubmit)="updateTarea(newTareaForm.value)" [formGroup]="newTareaForm">
+                    <h4>
+                      <div class="form-group">
+                        <label>Nombre</label>
+                        <p></p>
+                        <input type="text" formControlName="nombre" value="{{nombre}}">
+                      </div>
+                      <div class="form-group">
+                        <label>Fecha</label>
+                        <p></p>
+                        <input type="date" formControlName="fecha" value="{{fecha}}">
+                      </div>
+                      <div class="form-group">
+                        <label>Detalles:</label>
+                        <p></p>
+                        <input type="text" formControlName="detalle" value="{{detalle}}">
+                      </div>
+                    </h4>
+                    <!--<input type="hidden" formControlName="usuario">-->
+                    <input type="submit" class="btn btn-block btn-success text-uppercase text-white" value="Guardar">
+                  </form>
+                </div>
+                <!--<div class="modal-footer">
+                                <button type="button" class="btn btn-outline-dark"
+                                    (click)="c('Save click')">Save</button>
+                            </div>-->
+              </ng-template>
+              <!-- MODAL EDIT -->
+              <!-- MODAL MENSAJE EDIT -->
+              <ng-template #updateModal let-c="close" let-d="dismiss" id="updateModal">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Enhorabuena!</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Se ha podido modificar correctamente tu tarea.
+                </div>
+              </ng-template>
+              <!-- MODAL MENSAJE EDIT -->
+              <!-- TABLA TAREAS -->
+              <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nombre</th>
+                      <!--<th scope="col">Detalle</th>-->
+                      <th scope="col">Fecha</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let tarea of tareas">
+                      <th>{{tarea.nombre}}</th>
+                      <!--<td>{{tarea.detalle}}</td>-->
+                      <td>{{tarea.fecha}}</td>
+                      <td class="text-center">
+                        <i class="fas fa-search-plus" (click)="open(update,tarea, tarea.id)"></i>
+                        <i class="fas fa-minus" (click)="open(deleteModal,tarea, tarea.id)"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- TABLA TAREAS  (click)="deleteTarea(tarea.id)"> -->
+            </div>
+            <!-- MODAL DELETE -->
+            <ng-template #deleteModal let-c="close" let-d="dismiss" id="deleteTarea">
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Atención!</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                ¿Seguro que quieres eliminar esta tarea?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="deleteTarea()">Si</button>
+                <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">No</button>
+              </div>
+            </ng-template>
+            <!-- MODAL DELETE -->
+            <!-- MODAL DESPEDIDA -->
+            <ng-template #despedidaModal let-c="close" let-d="dismiss" id="despedidaModal">
+              <div class="modal-header">
+                <h2 class="modal-title" id="modal-basic-title">¡Gracias por visitarnos!</h2>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h3 class="text-center">Hasta otra.</h3>
+              </div>
+              <!--<div class="modal-footer">
+                            <h3>Hasta otra.</h3>
+                        </div>-->
+            </ng-template>
+            <!-- MODAL DESPEDIDA -->
+            <div class="card-footer">
+              <h4 class="text-center mb-3" (click)="openCreate(create)">Nueva tarea
+                <i class="fas fa-plus-circle"></i>
+              </h4>
+              <a class="btn btn-block btn-info text-uppercase text-white" (click)="desconectarse()">Cerrar
+                sesión</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</ion-content>

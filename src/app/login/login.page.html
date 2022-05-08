@@ -1,0 +1,83 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+          <div class="card card-signin my-5">
+            <div class="card-body">
+              <h1 class="text-center">DiaryMaker
+                <!--<i class="fas fa-book"></i>-->
+              </h1>
+              <h5 class="card-title text-center">Accede</h5>
+              <form class="form-signin">
+                <div class="form-label-group mb-2">
+                  <input type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico"
+                    [formControl]="correo">
+                  <!--<label for="inputEmail">Email address</label>-->
+                </div>
+
+                <div class="form-label-group mb-2">
+                  <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña"
+                    [formControl]="contrasenya">
+                  <!--<label for="inputPassword">Password</label>-->
+                </div>
+
+                <div class="custom-control custom-checkbox mb-3">
+                  <input type="checkbox" class="custom-control-input" id="customCheck1">
+                  <label class="custom-control-label" for="customCheck1">Recordar contraseña</label>
+                </div>
+                <button class="btn btn-login btn-primary col-12 btn-block text-uppercase"
+                  (click)="acceder()">Accede</button>
+                <hr class="my-4">
+                <button class="btn btn-login btn-facebook col-12 btn-block text-uppercase"
+                  (click)="registrarse()">Registrarse
+                  con
+                  correo</button>
+              </form>
+            </div>
+          </div>
+          <!-- ALERTS ACCESO-->
+          <div class="alert alert-warning" *ngIf="!cerradoAcceso1" (close)="cerradoAcceso1=true">
+            <strong>Vaya!</strong> Este usuario no existe.
+          </div>
+          <div class="alert alert-warning" *ngIf="!cerradoAcceso2" (close)="cerradoAcceso2=true">
+            <strong>Hey!</strong> La contraseña no coincide.
+          </div>
+          <div class="alert alert-warning" *ngIf="!cerradoAcceso3" (close)="cerradoAcceso3=true">
+            <strong>Vaya!</strong> Problemas con el correo electrónico.
+          </div>
+          <div class="alert alert-warning" *ngIf="!cerradoAcceso4" (close)="cerradoAcceso4=true">
+            <strong>Vaya!</strong> Problemas con la conexión a la red.
+          </div>
+          <!-- -->
+
+          <!-- ALERTS REGISTRO-->
+          <div class="alert alert-warning" *ngIf="!cerradoRegistro1" (close)="cerradoRegistro1=true">
+            <strong>Cuidado!</strong> Hay un problema con el correo electrónico.
+          </div>
+          <div class="alert alert-warning" *ngIf="!cerradoRegistro2" (close)="cerradoRegistro2=true">
+            <strong>Vaya!</strong> Se esta usando este correo electrónico.
+          </div>
+          <div class="alert alert-warning" *ngIf="!cerradoRegistro3" (close)="cerradoRegistro3=true">
+            <strong>Vaya!</strong> Se necesita un mínimo de 6 carácteres de contraseña.
+          </div>
+          <div type=success *ngIf="!cerradoRegistro4" (close)="cerradoRegistro4=true">
+            <strong>Enhorabuena!</strong> Su registro se ha hecho correctamente.
+          </div>
+          <div class="alert alert-warning" *ngIf="!cerradoRegistro5" (close)="cerradoRegistro5=true">
+            <strong>Vaya!</strong> Problemas de conexión.
+          </div>
+          <!-- -->
+        </div>
+      </div>
+    </div>
+  </body>
+
+</ion-content>
